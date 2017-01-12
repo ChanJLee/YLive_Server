@@ -9,4 +9,4 @@ class Anchor(models.Model):
     phoneNumber = models.CharField(max_length=11)
     age = models.IntegerField()
     email = models.CharField(max_length=30)
-    signUpDate = models.DateField()
+    signUpDate = models.DateField(auto_now_add=True)

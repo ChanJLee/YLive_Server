@@ -3,5 +3,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class ProgramConfig(AppConfig):
-    name = 'ProgramModel'
+class RoommodelConfig(AppConfig):
+    name = 'RoomModel'
