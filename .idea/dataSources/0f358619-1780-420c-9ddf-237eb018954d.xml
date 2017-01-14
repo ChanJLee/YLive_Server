@@ -12,508 +12,653 @@
     <schema id="6" parent="1" name="sys"/>
     <table id="7" parent="2" name="AnchorModel_anchor"/>
     <table id="8" parent="2" name="CategoryModel_categorymodel"/>
-    <table id="9" parent="2" name="RoomModel_roommodel"/>
-    <table id="10" parent="2" name="auth_group"/>
-    <table id="11" parent="2" name="auth_group_permissions"/>
-    <table id="12" parent="2" name="auth_permission"/>
-    <table id="13" parent="2" name="auth_user"/>
-    <table id="14" parent="2" name="auth_user_groups"/>
-    <table id="15" parent="2" name="auth_user_user_permissions"/>
-    <table id="16" parent="2" name="django_admin_log"/>
-    <table id="17" parent="2" name="django_content_type"/>
-    <table id="18" parent="2" name="django_migrations"/>
-    <table id="19" parent="2" name="django_session"/>
-    <column id="20" parent="7" name="id">
+    <table id="9" parent="2" name="FollowModel_followmode"/>
+    <table id="10" parent="2" name="RoomModel_roommodel"/>
+    <table id="11" parent="2" name="UserModel_usermodel"/>
+    <table id="12" parent="2" name="auth_group"/>
+    <table id="13" parent="2" name="auth_group_permissions"/>
+    <table id="14" parent="2" name="auth_permission"/>
+    <table id="15" parent="2" name="auth_user"/>
+    <table id="16" parent="2" name="auth_user_groups"/>
+    <table id="17" parent="2" name="auth_user_user_permissions"/>
+    <table id="18" parent="2" name="django_admin_log"/>
+    <table id="19" parent="2" name="django_content_type"/>
+    <table id="20" parent="2" name="django_migrations"/>
+    <table id="21" parent="2" name="django_session"/>
+    <column id="22" parent="7" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="21" parent="7" name="password">
+    <column id="23" parent="7" name="password">
       <Position>2</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="22" parent="7" name="username">
+    <column id="24" parent="7" name="username">
       <Position>3</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="23" parent="7" name="phoneNumber">
+    <column id="25" parent="7" name="phoneNumber">
       <Position>4</Position>
       <DataType>varchar(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="24" parent="7" name="age">
+    <column id="26" parent="7" name="age">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="25" parent="7" name="email">
+    <column id="27" parent="7" name="email">
       <Position>6</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="26" parent="7" name="signUpDate">
+    <column id="28" parent="7" name="signUpDate">
       <Position>7</Position>
       <DataType>date|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="27" parent="7" name="PRIMARY">
+    <column id="29" parent="7" name="userId_id">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="30" parent="7" name="AnchorModel_anchor_userId_id_9764047b_fk_UserModel_usermodel_id">
+      <ColNames>userId_id</ColNames>
+    </index>
+    <key id="31" parent="7" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="28" parent="8" name="id">
+    <foreign-key id="32" parent="7" name="AnchorModel_anchor_userId_id_9764047b_fk_UserModel_usermodel_id">
+      <ColNames>userId_id</ColNames>
+      <RefSchemaName>ylive</RefSchemaName>
+      <RefTableName>UserModel_usermodel</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="33" parent="8" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="29" parent="8" name="name">
+    <column id="34" parent="8" name="name">
       <Position>2</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="30" parent="8" name="PRIMARY">
+    <key id="35" parent="8" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="31" parent="9" name="id">
+    <column id="36" parent="9" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="32" parent="9" name="title">
+    <column id="37" parent="9" name="anchorId_id">
       <Position>2</Position>
-      <DataType>varchar(20)|0</DataType>
+      <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="33" parent="9" name="last">
+    <column id="38" parent="9" name="categoryId_id">
       <Position>3</Position>
-      <DataType>datetime(6)|0</DataType>
+      <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="34" parent="9" name="categoryId">
+    <column id="39" parent="9" name="roomId_id">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="35" parent="9" name="houseCount">
+    <column id="40" parent="9" name="userId_id">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="36" parent="9" name="ownerId">
-      <Position>6</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="37" parent="9" name="PRIMARY">
+    <index id="41" parent="9" name="FollowModel_followm_roomId_id_fe3af103_fk_RoomModel_roommodel_id">
+      <ColNames>roomId_id</ColNames>
+    </index>
+    <index id="42" parent="9" name="FollowModel_followm_userId_id_9bf5d58e_fk_UserModel_usermodel_id">
+      <ColNames>userId_id</ColNames>
+    </index>
+    <index id="43" parent="9" name="FollowModel_follow_anchorId_id_b0a74e37_fk_AnchorModel_anchor_id">
+      <ColNames>anchorId_id</ColNames>
+    </index>
+    <index id="44" parent="9" name="FollowM_categoryId_id_22b236c7_fk_CategoryModel_categorymodel_id">
+      <ColNames>categoryId_id</ColNames>
+    </index>
+    <key id="45" parent="9" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="38" parent="10" name="id">
+    <foreign-key id="46" parent="9" name="FollowModel_follow_anchorId_id_b0a74e37_fk_AnchorModel_anchor_id">
+      <ColNames>anchorId_id</ColNames>
+      <RefSchemaName>ylive</RefSchemaName>
+      <RefTableName>AnchorModel_anchor</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="47" parent="9" name="FollowM_categoryId_id_22b236c7_fk_CategoryModel_categorymodel_id">
+      <ColNames>categoryId_id</ColNames>
+      <RefSchemaName>ylive</RefSchemaName>
+      <RefTableName>CategoryModel_categorymodel</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="48" parent="9" name="FollowModel_followm_roomId_id_fe3af103_fk_RoomModel_roommodel_id">
+      <ColNames>roomId_id</ColNames>
+      <RefSchemaName>ylive</RefSchemaName>
+      <RefTableName>RoomModel_roommodel</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="49" parent="9" name="FollowModel_followm_userId_id_9bf5d58e_fk_UserModel_usermodel_id">
+      <ColNames>userId_id</ColNames>
+      <RefSchemaName>ylive</RefSchemaName>
+      <RefTableName>UserModel_usermodel</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="50" parent="10" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="39" parent="10" name="name">
+    <column id="51" parent="10" name="title">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="52" parent="10" name="last">
+      <Position>3</Position>
+      <DataType>datetime(6)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="53" parent="10" name="houseCount">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="10" name="categoryId_id">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="55" parent="10" name="ownerId_id">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="56" parent="10" name="followCount">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="57" parent="10" name="RoomModel_roommodel_categoryId_id_7ee8c47a_uniq">
+      <ColNames>categoryId_id</ColNames>
+    </index>
+    <index id="58" parent="10" name="RoomModel_roommodel_ownerId_id_e8374d22_uniq">
+      <ColNames>ownerId_id</ColNames>
+    </index>
+    <key id="59" parent="10" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="60" parent="10" name="RoomMod_categoryId_id_7ee8c47a_fk_CategoryModel_categorymodel_id">
+      <ColNames>categoryId_id</ColNames>
+      <RefSchemaName>ylive</RefSchemaName>
+      <RefTableName>CategoryModel_categorymodel</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="61" parent="10" name="RoomModel_roommodel_ownerId_id_e8374d22_fk_AnchorModel_anchor_id">
+      <ColNames>ownerId_id</ColNames>
+      <RefSchemaName>ylive</RefSchemaName>
+      <RefTableName>AnchorModel_anchor</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="62" parent="11" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="63" parent="11" name="password">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="64" parent="11" name="username">
+      <Position>3</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="65" parent="11" name="phoneNumber">
+      <Position>4</Position>
+      <DataType>varchar(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="66" parent="11" name="age">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="67" parent="11" name="email">
+      <Position>6</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="68" parent="11" name="signUpDate">
+      <Position>7</Position>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="69" parent="11" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="70" parent="12" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="71" parent="12" name="name">
       <Position>2</Position>
       <DataType>varchar(80)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="40" parent="10" name="name">
+    <index id="72" parent="12" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="41" parent="10" name="PRIMARY">
+    <key id="73" parent="12" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="42" parent="10" name="name">
+    <key id="74" parent="12" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="43" parent="11" name="id">
+    <column id="75" parent="13" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="44" parent="11" name="group_id">
+    <column id="76" parent="13" name="group_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="45" parent="11" name="permission_id">
+    <column id="77" parent="13" name="permission_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="46" parent="11" name="auth_group_permissions_group_id_0cd325b0_uniq">
+    <index id="78" parent="13" name="auth_group_permissions_group_id_0cd325b0_uniq">
       <ColNames>group_id
 permission_id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="47" parent="11" name="auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id">
+    <index id="79" parent="13" name="auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id">
       <ColNames>permission_id</ColNames>
     </index>
-    <key id="48" parent="11" name="PRIMARY">
+    <key id="80" parent="13" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="49" parent="11" name="auth_group_permissions_group_id_0cd325b0_uniq">
+    <key id="81" parent="13" name="auth_group_permissions_group_id_0cd325b0_uniq">
       <ColNames>group_id
 permission_id</ColNames>
       <UnderlyingIndexName>auth_group_permissions_group_id_0cd325b0_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="50" parent="11" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
+    <foreign-key id="82" parent="13" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>auth_group</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="51" parent="11" name="auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id">
+    <foreign-key id="83" parent="13" name="auth_group_permissi_permission_id_84c5c92e_fk_auth_permission_id">
       <ColNames>permission_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>auth_permission</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="52" parent="12" name="id">
+    <column id="84" parent="14" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="53" parent="12" name="name">
+    <column id="85" parent="14" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="54" parent="12" name="content_type_id">
+    <column id="86" parent="14" name="content_type_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="55" parent="12" name="codename">
+    <column id="87" parent="14" name="codename">
       <Position>4</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="56" parent="12" name="auth_permission_content_type_id_01ab375a_uniq">
+    <index id="88" parent="14" name="auth_permission_content_type_id_01ab375a_uniq">
       <ColNames>content_type_id
 codename</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="57" parent="12" name="PRIMARY">
+    <key id="89" parent="14" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="58" parent="12" name="auth_permission_content_type_id_01ab375a_uniq">
+    <key id="90" parent="14" name="auth_permission_content_type_id_01ab375a_uniq">
       <ColNames>content_type_id
 codename</ColNames>
       <UnderlyingIndexName>auth_permission_content_type_id_01ab375a_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="59" parent="12" name="auth_permissi_content_type_id_2f476e4b_fk_django_content_type_id">
+    <foreign-key id="91" parent="14" name="auth_permissi_content_type_id_2f476e4b_fk_django_content_type_id">
       <ColNames>content_type_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>django_content_type</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="60" parent="13" name="id">
+    <column id="92" parent="15" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="61" parent="13" name="password">
+    <column id="93" parent="15" name="password">
       <Position>2</Position>
       <DataType>varchar(128)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="62" parent="13" name="last_login">
+    <column id="94" parent="15" name="last_login">
       <Position>3</Position>
       <DataType>datetime(6)|0</DataType>
     </column>
-    <column id="63" parent="13" name="is_superuser">
+    <column id="95" parent="15" name="is_superuser">
       <Position>4</Position>
       <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="64" parent="13" name="username">
+    <column id="96" parent="15" name="username">
       <Position>5</Position>
       <DataType>varchar(150)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="65" parent="13" name="first_name">
+    <column id="97" parent="15" name="first_name">
       <Position>6</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="66" parent="13" name="last_name">
+    <column id="98" parent="15" name="last_name">
       <Position>7</Position>
       <DataType>varchar(30)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="67" parent="13" name="email">
+    <column id="99" parent="15" name="email">
       <Position>8</Position>
       <DataType>varchar(254)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="68" parent="13" name="is_staff">
+    <column id="100" parent="15" name="is_staff">
       <Position>9</Position>
       <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="69" parent="13" name="is_active">
+    <column id="101" parent="15" name="is_active">
       <Position>10</Position>
       <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="70" parent="13" name="date_joined">
+    <column id="102" parent="15" name="date_joined">
       <Position>11</Position>
       <DataType>datetime(6)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="71" parent="13" name="username">
+    <index id="103" parent="15" name="username">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="72" parent="13" name="PRIMARY">
+    <key id="104" parent="15" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="73" parent="13" name="username">
+    <key id="105" parent="15" name="username">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username</UnderlyingIndexName>
     </key>
-    <column id="74" parent="14" name="id">
+    <column id="106" parent="16" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="75" parent="14" name="user_id">
+    <column id="107" parent="16" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="76" parent="14" name="group_id">
+    <column id="108" parent="16" name="group_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="77" parent="14" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
+    <index id="109" parent="16" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
       <ColNames>group_id</ColNames>
     </index>
-    <index id="78" parent="14" name="auth_user_groups_user_id_94350c0c_uniq">
+    <index id="110" parent="16" name="auth_user_groups_user_id_94350c0c_uniq">
       <ColNames>user_id
 group_id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="79" parent="14" name="PRIMARY">
+    <key id="111" parent="16" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="80" parent="14" name="auth_user_groups_user_id_94350c0c_uniq">
+    <key id="112" parent="16" name="auth_user_groups_user_id_94350c0c_uniq">
       <ColNames>user_id
 group_id</ColNames>
       <UnderlyingIndexName>auth_user_groups_user_id_94350c0c_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="81" parent="14" name="auth_user_groups_user_id_6a12ed8b_fk_auth_user_id">
+    <foreign-key id="113" parent="16" name="auth_user_groups_user_id_6a12ed8b_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="82" parent="14" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
+    <foreign-key id="114" parent="16" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>auth_group</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="83" parent="15" name="id">
+    <column id="115" parent="17" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="84" parent="15" name="user_id">
+    <column id="116" parent="17" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="85" parent="15" name="permission_id">
+    <column id="117" parent="17" name="permission_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="86" parent="15" name="auth_user_user_permissions_user_id_14a6b632_uniq">
+    <index id="118" parent="17" name="auth_user_user_permissions_user_id_14a6b632_uniq">
       <ColNames>user_id
 permission_id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="87" parent="15" name="auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id">
+    <index id="119" parent="17" name="auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id">
       <ColNames>permission_id</ColNames>
     </index>
-    <key id="88" parent="15" name="PRIMARY">
+    <key id="120" parent="17" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="89" parent="15" name="auth_user_user_permissions_user_id_14a6b632_uniq">
+    <key id="121" parent="17" name="auth_user_user_permissions_user_id_14a6b632_uniq">
       <ColNames>user_id
 permission_id</ColNames>
       <UnderlyingIndexName>auth_user_user_permissions_user_id_14a6b632_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="90" parent="15" name="auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id">
+    <foreign-key id="122" parent="17" name="auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="91" parent="15" name="auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id">
+    <foreign-key id="123" parent="17" name="auth_user_user_perm_permission_id_1fbb5f2c_fk_auth_permission_id">
       <ColNames>permission_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>auth_permission</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="92" parent="16" name="id">
+    <column id="124" parent="18" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="93" parent="16" name="action_time">
+    <column id="125" parent="18" name="action_time">
       <Position>2</Position>
       <DataType>datetime(6)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="94" parent="16" name="object_id">
+    <column id="126" parent="18" name="object_id">
       <Position>3</Position>
       <DataType>longtext|0</DataType>
     </column>
-    <column id="95" parent="16" name="object_repr">
+    <column id="127" parent="18" name="object_repr">
       <Position>4</Position>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="96" parent="16" name="action_flag">
+    <column id="128" parent="18" name="action_flag">
       <Position>5</Position>
       <DataType>smallint(5) unsigned|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="97" parent="16" name="change_message">
+    <column id="129" parent="18" name="change_message">
       <Position>6</Position>
       <DataType>longtext|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="98" parent="16" name="content_type_id">
+    <column id="130" parent="18" name="content_type_id">
       <Position>7</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <column id="99" parent="16" name="user_id">
+    <column id="131" parent="18" name="user_id">
       <Position>8</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="100" parent="16" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
+    <index id="132" parent="18" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
       <ColNames>user_id</ColNames>
     </index>
-    <index id="101" parent="16" name="django_admin__content_type_id_c4bce8eb_fk_django_content_type_id">
+    <index id="133" parent="18" name="django_admin__content_type_id_c4bce8eb_fk_django_content_type_id">
       <ColNames>content_type_id</ColNames>
     </index>
-    <key id="102" parent="16" name="PRIMARY">
+    <key id="134" parent="18" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="103" parent="16" name="django_admin__content_type_id_c4bce8eb_fk_django_content_type_id">
+    <foreign-key id="135" parent="18" name="django_admin__content_type_id_c4bce8eb_fk_django_content_type_id">
       <ColNames>content_type_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>django_content_type</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="104" parent="16" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
+    <foreign-key id="136" parent="18" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefSchemaName>ylive</RefSchemaName>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="105" parent="17" name="id">
+    <column id="137" parent="19" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="106" parent="17" name="app_label">
+    <column id="138" parent="19" name="app_label">
       <Position>2</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="107" parent="17" name="model">
+    <column id="139" parent="19" name="model">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="108" parent="17" name="django_content_type_app_label_76bd3d3b_uniq">
+    <index id="140" parent="19" name="django_content_type_app_label_76bd3d3b_uniq">
       <ColNames>app_label
 model</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="109" parent="17" name="PRIMARY">
+    <key id="141" parent="19" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="110" parent="17" name="django_content_type_app_label_76bd3d3b_uniq">
+    <key id="142" parent="19" name="django_content_type_app_label_76bd3d3b_uniq">
       <ColNames>app_label
 model</ColNames>
       <UnderlyingIndexName>django_content_type_app_label_76bd3d3b_uniq</UnderlyingIndexName>
     </key>
-    <column id="111" parent="18" name="id">
+    <column id="143" parent="20" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="112" parent="18" name="app">
+    <column id="144" parent="20" name="app">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="113" parent="18" name="name">
+    <column id="145" parent="20" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="114" parent="18" name="applied">
+    <column id="146" parent="20" name="applied">
       <Position>4</Position>
       <DataType>datetime(6)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="115" parent="18" name="PRIMARY">
+    <key id="147" parent="20" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="116" parent="19" name="session_key">
+    <column id="148" parent="21" name="session_key">
       <Position>1</Position>
       <DataType>varchar(40)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="117" parent="19" name="session_data">
+    <column id="149" parent="21" name="session_data">
       <Position>2</Position>
       <DataType>longtext|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="118" parent="19" name="expire_date">
+    <column id="150" parent="21" name="expire_date">
       <Position>3</Position>
       <DataType>datetime(6)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="119" parent="19" name="django_session_de54fa62">
+    <index id="151" parent="21" name="django_session_de54fa62">
       <ColNames>expire_date</ColNames>
     </index>
-    <key id="120" parent="19" name="PRIMARY">
+    <key id="152" parent="21" name="PRIMARY">
       <ColNames>session_key</ColNames>
       <Primary>1</Primary>
     </key>

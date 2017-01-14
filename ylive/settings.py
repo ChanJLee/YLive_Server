@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AnchorModel',
     'CategoryModel',
-    'RoomModel'
+    'RoomModel',
+    'FollowModel',
+    'UserModel'
 ]
 
 MIDDLEWARE = [
