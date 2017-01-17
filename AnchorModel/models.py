@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-from UserModel.models import UserModel
 
 class Anchor(models.Model):
     password = models.CharField(max_length=20)
@@ -12,4 +12,4 @@ class Anchor(models.Model):
     age = models.IntegerField()
     email = models.CharField(max_length=30)
     signUpDate = models.DateField(auto_now_add=True)
-    userId = models.ForeignKey(UserModel, default=-1)
+    userId = models.ForeignKey(User, default=-1)
