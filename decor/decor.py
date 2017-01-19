@@ -1,5 +1,5 @@
 # encoding=utf-8
-
+from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
@@ -54,12 +54,18 @@ from rest_framework.renderers import JSONRenderer
 # s = PersonSerializer(person)
 # return JsonResponse(s.data, safe=False)
 from misc import error
-from misc.error import Error, ErrorSerializer
+from misc.error import Error, ErrorSerializer, CODE_OK
+from misc.message import Message, MessageSerializer
 
 
 def return_error(message):
     err = Error(error.CODE_EXCEPTION, message)
     return ErrorSerializer(err).createResponse()
+
+
+def return_message(message):
+    message = Message(CODE_OK, message)
+    return MessageSerializer(message).createResponse()
 
 
 def post_only(func):
