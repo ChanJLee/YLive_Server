@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from ylive.view import login
+from ylive.view import login, register
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/login/$', login)
+    url(r'^user/login/$', login),
+    url(r'^user/register/$', register)
 ]

@@ -64,41 +64,41 @@ def return_error(message):
 
 
 def return_message(message):
-    message = Message(CODE_OK, message)
-    return MessageSerializer(message).createResponse()
+    msg = Message(CODE_OK, message)
+    return MessageSerializer(msg).createResponse()
 
 
 def post_only(func):
-    def func_wrapper(request, *args, **kwargs):
+    def func_wrapper(request):
         if not request.method == 'POST':
             return return_error(u"仅支持POST")
-        return func(request, args, kwargs)
+        return func(request)
 
     return func_wrapper
 
 
 def put_only(func):
-    def func_wrapper(request, *args, **kwargs):
+    def func_wrapper(request):
         if not request.method == 'PUT':
             return return_error(u"仅支持PUT")
-        return func(request, args, kwargs)
+        return func(request)
 
     return func_wrapper
 
 
 def delete_only(func):
-    def func_wrapper(request, *args, **kwargs):
+    def func_wrapper(request):
         if not request.method == "DELETE":
             return return_error(u"仅支持DELETE")
-        return func(request, args, kwargs)
+        return func(request)
 
     return func_wrapper
 
 
 def get_only(func):
-    def func_wrapper(request, *args, **kwargs):
+    def func_wrapper(request):
         if not request.method == "GET":
             return return_error(u"仅支持GET")
-        return func(request, *args, **kwargs)
+        return func(request)
 
     return func_wrapper

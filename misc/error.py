@@ -13,6 +13,7 @@ class Error:
         self.message = message
         self.data = None
 
+
 class ErrorSerializer(base.BaseSerializer):
     code = serializers.IntegerField(default=CODE_EXCEPTION)
     message = serializers.CharField(max_length=50)

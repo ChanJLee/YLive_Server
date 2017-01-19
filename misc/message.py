@@ -8,6 +8,8 @@ class Message:
     def __init__(self, code, message):
         self.code = code
         self.message = message
+        self.data = None
+
 
 class MessageSerializer(BaseSerializer):
     def create(self, validated_data):
@@ -18,4 +20,4 @@ class MessageSerializer(BaseSerializer):
 
     code = serializers.IntegerField(default=CODE_OK)
     message = serializers.CharField(max_length=50)
-    data = serializers.IntegerField(default=0, required=False)
+    data = serializers.DictField(required=False)
