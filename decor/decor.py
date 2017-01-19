@@ -4,7 +4,6 @@ from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
-
 # class Point:
 #     def __init__(self, x, y):
 #         self.x = x
@@ -58,11 +57,42 @@ from misc import error
 from misc.error import Error, ErrorSerializer
 
 
+def return_error(message):
+    err = Error(error.CODE_EXCEPTION, message)
+    return ErrorSerializer(err).createResponse()
+
+
 def post_only(func):
-    def func_wrapper(request):
+    def func_wrapper(request, *args, **kwargs):
         if not request.method == 'POST':
-            err = Error(error.CODE_EXCEPTION, u"只支持POST")
-            return ErrorSerializer(err).createResponse()
-        return func(request)
+            return return_error(u"仅支持POST")
+        return func(request, args, kwargs)
+
+    return func_wrapper
+
+
+def put_only(func):
+    def func_wrapper(request, *args, **kwargs):
+        if not request.method == 'PUT':
+            return return_error(u"仅支持PUT")
+        return func(request, args, kwargs)
+
+    return func_wrapper
+
+
+def delete_only(func):
+    def func_wrapper(request, *args, **kwargs):
+        if not request.method == "DELETE":
+            return return_error(u"仅支持DELETE")
+        return func(request, args, kwargs)
+
+    return func_wrapper
+
+
+def get_only(func):
+    def func_wrapper(request, *args, **kwargs):
+        if not request.method == "GET":
+            return return_error(u"仅支持GET")
+        return func(request, *args, **kwargs)
 
     return func_wrapper
