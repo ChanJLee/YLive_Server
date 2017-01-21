@@ -1,36 +1,18 @@
 # encoding=utf-8
-import json
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.http import QueryDict
-from django.utils.datastructures import MultiValueDict
+from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
 
 from decor.decor import put_only, post_only, return_error, return_message
-
-
-def parse_request(request):
-    if request.META.get('CONTENT_TYPE', '').startswith('multipart'):
-        return parse_multipart(request)
-    else:
-        return parse_form(request)
-
-
-def parse_form(request):
-    return QueryDict(request.raw_post_data)
-
-
-def parse_multipart(request):
-    return request.parse_file_upload(request.META, request)
 
 
 @csrf_exempt
 @put_only
 def login(request):
-    put = parse_request(request)[0]
+    put = QueryDict(request.body)
     username = put["username"]
     password = put["password"]
 
@@ -43,8 +25,11 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is None:
         return return_error(u"验证失败")
-    return return_message(u"登录成功")
-
+    response = return_message(u"登录成功")
+    context = {}
+    context.update(csrf(request))
+    response.set_cookie("csrftoken", context['csrf_token'])
+    return response
 
 @csrf_exempt
 @post_only
