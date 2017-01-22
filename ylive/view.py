@@ -1,5 +1,5 @@
 # encoding=utf-8
-
+from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import QueryDict
@@ -7,6 +7,7 @@ from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
 from decor.decor import put_only, post_only, return_error, return_message
+from misc.error import CODE_NO_AUTHENTICATION
 
 
 @csrf_exempt
@@ -26,10 +27,20 @@ def login(request):
     if user is None:
         return return_error(u"验证失败")
     response = return_message(u"登录成功")
+    auth.login(request, user)
+
     context = {}
     context.update(csrf(request))
     response.set_cookie("csrftoken", context['csrf_token'])
     return response
+
+@put_only
+def logout(request):
+    user = request.user
+    if not user and not user.is_authenticated():
+        return return_error(u"当前用户并没有登录", code=CODE_NO_AUTHENTICATION)
+    auth.logout(request)
+    return return_message(u"登出成功")
 
 @csrf_exempt
 @post_only

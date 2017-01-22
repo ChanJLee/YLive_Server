@@ -58,7 +58,7 @@ from misc.error import Error, ErrorSerializer, CODE_OK
 from misc.message import Message, MessageSerializer
 
 
-def return_error(message):
+def return_error(message, code = error.CODE_EXCEPTION):
     err = Error(error.CODE_EXCEPTION, message)
     return ErrorSerializer(err).createResponse()
 
