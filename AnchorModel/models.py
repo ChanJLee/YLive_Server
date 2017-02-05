@@ -6,4 +6,4 @@ from django.db import models
 # Create your models here.
 
 class Anchor(models.Model):
-    userId = models.ForeignKey(User, default=-1)
+    user = models.ForeignKey(User, default=-1)

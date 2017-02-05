@@ -32,7 +32,8 @@ def init_user(request):
 
 def init_anchor(request):
     for user in User.objects.all():
-        anchor = Anchor.objects.create()
-        anchor.userId = user.id
+        anchor = Anchor()
+        print user.id
+        anchor.user = user
         anchor.save()
     return HttpResponse("add anchor success")
