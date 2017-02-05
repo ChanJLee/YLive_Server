@@ -16,11 +16,15 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from ylive.admin import init_category, init_user, init_anchor
 from ylive.view import login, register, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^user/login/$', login),
     url(r'^user/register/$', register),
-    url(r'^user/logout/$', logout)
+    url(r'^user/logout/$', logout),
+    url(r'^admin/init/category/$', init_category),
+    url(r'^admin/init/user/$', init_user),
+    url(r'^admin/init/anchor/$', init_anchor)
 ]

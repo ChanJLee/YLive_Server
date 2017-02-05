@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="ylive@localhost" uuid="0f358619-1780-420c-9ddf-237eb018954d">
+    <data-source name="ylive_database@localhost" uuid="de5a03b6-db4a-4f68-a810-5c613ba363e5">
       <database-info product="MySQL" version="5.7.10" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
@@ -9,7 +9,7 @@
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper" />
       <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
-      <resolve-scope>ylive:</resolve-scope>
+      <resolve-scope>ylive_database:</resolve-scope>
     </data-source>
   </component>
 </project>

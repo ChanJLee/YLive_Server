@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="ylive@localhost" uuid="0f358619-1780-420c-9ddf-237eb018954d">
+    <data-source source="LOCAL" name="ylive_database@localhost" uuid="de5a03b6-db4a-4f68-a810-5c613ba363e5">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/ylive</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/ylive_database</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

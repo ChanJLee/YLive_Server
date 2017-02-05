@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'CategoryModel',
     'RoomModel',
     'FollowModel',
-    'UserModel',
     'rest_framework',
 ]
 
@@ -79,7 +78,7 @@ WSGI_APPLICATION = 'ylive.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ylive',
+        'NAME': 'ylive_database',
         'USER': 'root',
         'PASSWORD': '19940525',
         'HOST': 'localhost',
