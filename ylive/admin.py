@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from AnchorModel.models import Anchor
 from CategoryModel.models import CategoryModel
 
-categories = ['户外', '运动', '科教', '手游', '桌游']
+categories = [u'户外', u'运动', u'科教', u'手游', u'桌游']
 
 
 def init_category(request):
@@ -28,6 +28,7 @@ def init_user(request):
         user = User.objects.create_user(username, password, email)
         user.save()
     return HttpResponse("add user success")
+
 
 def init_anchor(request):
     for user in User.objects.all():

@@ -83,6 +83,9 @@ DATABASES = {
         'PASSWORD': '19940525',
         'HOST': 'localhost',
         'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '../mysql.cnf',
+        },
     }
 }
 
