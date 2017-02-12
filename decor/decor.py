@@ -54,11 +54,11 @@ from rest_framework.renderers import JSONRenderer
 # s = PersonSerializer(person)
 # return JsonResponse(s.data, safe=False)
 from misc import error
-from misc.error import Error, ErrorSerializer, CODE_OK
+from misc.error import Error, ErrorSerializer, CODE_OK, CODE_NO_AUTHENTICATION
 from misc.message import Message, MessageSerializer
 
 
-def return_error(message, code = error.CODE_EXCEPTION):
+def return_error(message, code=error.CODE_EXCEPTION):
     err = Error(error.CODE_EXCEPTION, message)
     return ErrorSerializer(err).createResponse()
 
@@ -69,36 +69,46 @@ def return_message(message):
 
 
 def post_only(func):
-    def func_wrapper(request):
+    def func_wrapper(request, *args, **kwargs):
         if not request.method == 'POST':
             return return_error(u"仅支持POST")
-        return func(request)
+        return func(request, args, kwargs)
 
     return func_wrapper
 
 
 def put_only(func):
-    def func_wrapper(request):
+    def func_wrapper(request, *args, **kwargs):
         if not request.method == 'PUT':
             return return_error(u"仅支持PUT")
-        return func(request)
+        return func(request, args, kwargs)
 
     return func_wrapper
 
 
 def delete_only(func):
-    def func_wrapper(request):
+    def func_wrapper(request, *args, **kwargs):
         if not request.method == "DELETE":
             return return_error(u"仅支持DELETE")
-        return func(request)
+        return func(request, args, kwargs)
 
     return func_wrapper
 
 
 def get_only(func):
-    def func_wrapper(request):
+    def func_wrapper(request, *args, **kwargs):
         if not request.method == "GET":
             return return_error(u"仅支持GET")
-        return func(request)
+        return func(request, args, kwargs)
+
+    return func_wrapper
+
+
+def login_required(func):
+    def func_wrapper(request, *args, **kwargs):
+        user = request.user
+        if not user and not user.is_authenticated():
+            return return_error(u"当前用户并没有登录", code=CODE_NO_AUTHENTICATION)
+        return func(request, args, kwargs)
 
     return func_wrapper

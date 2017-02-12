@@ -24,7 +24,7 @@ SECRET_KEY = ')h5$fi&bo1-=pu496e5e#t86vi4^fufl__^9vgylu+evhxufwj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.101', '192.168.1.100']
+ALLOWED_HOSTS = ['192.168.1.104', '192.168.1.100', '192.168.1.101']
 
 # Application definition
 
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'AnchorModel',
     'CategoryModel',
     'RoomModel',
-    'FollowModel',
     'rest_framework',
 ]
 
@@ -78,7 +77,7 @@ WSGI_APPLICATION = 'ylive.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ylive_database',
+        'NAME': 'ylive',
         'USER': 'root',
         'PASSWORD': '19940525',
         'HOST': 'localhost',
@@ -105,6 +104,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Internationalization
