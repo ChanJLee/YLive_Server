@@ -14,3 +14,4 @@ class RoomModel(models.Model):
     last = models.DateTimeField(auto_now_add=True)
     categoryId = models.ForeignKey(CategoryModel, on_delete=CASCADE)
     ownerId = models.ForeignKey(Anchor, default=-1, on_delete=CASCADE)
+    count = models.IntegerField(default=0)

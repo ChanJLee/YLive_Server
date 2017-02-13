@@ -1,19 +1,19 @@
 # encoding=utf-8
 import os
 from operator import eq
-from time import timezone
 
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.http import QueryDict
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import serializers
 
 from AnchorModel.models import Anchor
 from CategoryModel.admin import CategoryModel
 from RoomModel.models import RoomModel
-from decor.decor import put_only, post_only, return_error, return_message, login_required
-from misc.error import CODE_NO_AUTHENTICATION
+from decor.decor import put_only, post_only, return_error, return_message, login_required, CODE_NO_AUTHENTICATION
 
 
 @csrf_exempt
@@ -28,8 +28,7 @@ def login(request, *args, **kwargs):
 
     if not password:
         return return_error(u"密码不能为空")
-    t = User.objects.get(username='user0', password='1234')
-    user = authenticate(username=t.username, password=t.password)
+    user = authenticate(username=username, password=password)
     if user is None:
         return return_error(u"验证失败")
     response = return_message(u"登录成功")
@@ -42,7 +41,10 @@ def login(request, *args, **kwargs):
 
 
 def authenticate(username=None, password=None):
-    return User.objects.get(username=username, password=password)
+    try:
+        return User.objects.get(username=username, password=password)
+    except Exception as e:
+        return None
 
 
 @put_only
@@ -183,3 +185,64 @@ def close_broadcast(request, *arg, **kwargs):
         return return_message(u"你还没有开播")
     room.delete()
     return return_message(u'关播成功')
+
+
+class Room:
+    def __init__(self, id, title, snapshot, anchor, audience_count):
+        self.id = id
+        self.title = title
+        self.snapshot = snapshot
+        self.anchor = anchor
+        self.audienceCount = audience_count
+        pass
+
+
+class RoomSerializer(serializers.Serializer):
+    id = serializers.IntegerField(default=-1)
+    title = serializers.CharField(max_length=40)
+    snapshot = serializers.CharField(max_length=50)
+    anchor = serializers.CharField(max_length=20)
+    audienceCount = serializers.IntegerField(default=-1)
+
+class LinearRoomSerializer(serializers.Serializer):
+#    code = serializers.IntegerField(default=CODE_OK, required=False)
+#    message = serializers.CharField(max_length=20, default=u'Ok', required=False)
+    rooms = RoomSerializer(many=True)
+
+def fetch_rooms(request, category):
+    if not category or not CATEGORY_MAP[int(category)]:
+        return return_error(u"类别有误")
+    category = CategoryModel.objects.get(name=CATEGORY_MAP[int(category)])
+    index = 0
+    if 'page' in request.GET:
+        index = int(request.GET['page'])
+    rooms = RoomModel.objects.all()
+    print rooms
+    response = []
+    for room in rooms:
+        roomResponse = Room(room.id, room.title, room_snapshot(category, room.ownerId.user.username),
+                            room.ownerId.user.last_name, room.count)
+        response.append(roomResponse)
+    serializer = RoomSerializer(response)
+    #serializer = LinearRoomSerializer(serializer)
+    list = []
+    x = RoomSerializer(Room(10, u'haha', 'http://hahah', 'what', 10))
+    list.append(x)
+    foo = LinearRoomSerializer(data=list)
+    foo.is_valid()
+    print foo.data
+    return JsonResponse(data=foo.data, safe=False)
+
+def room_snapshot(category, username):
+    dir_name = 'music'
+    if eq(category, u'音乐'):
+        dir_name = 'music'
+    elif eq(category, u'户外'):
+        dir_name = 'sport'
+    elif eq(category, u'星秀'):
+        dir_name = 'show'
+    elif eq(category, u'桌游'):
+        dir_name = 'desktop_game'
+    else:
+        dir_name = 'pet'
+    return "http://localhost:8000/%s/%s" % (dir_name, username)

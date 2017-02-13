@@ -3,7 +3,17 @@ from django.http import QueryDict
 from rest_framework import serializers
 
 
-class BaseSerializer(serializers.Serializer):
+class Json:
+    def __init__(self, code, message, data):
+        self.code = code
+        self.message = message
+        self.data = data
+
+
+class JsonSerializer(serializers.Serializer):
+    code = serializers.IntegerField()
+    message = serializers.CharField(max_length=20)
+
     def createResponse(self):
         return JsonResponse(data=self.data, safe=False)
 

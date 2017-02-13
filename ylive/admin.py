@@ -5,7 +5,7 @@ from numpy import size
 
 from AnchorModel.models import Anchor, UserToAnchorRelationship
 from CategoryModel.admin import CategoryModel
-from ylive.view import open_broadcast_impl
+from ylive.json import json_func
 
 categories = [u'户外', u'运动', u'科教', u'手游', u'桌游']
 
@@ -66,24 +66,4 @@ def init_follow(request):
 
 
 def foo(request):
-    for x in Anchor.objects.all():
-        x.delete()
-    users = User.objects.all()
-    for user in users:
-        try:
-            anchor = Anchor()
-            anchor.user = user
-            anchor.save()
-        except Exception as e:
-            print e
-    categories = CategoryModel.objects.all()
-    i = 0
-    for category in categories:
-        for j in range(0, 20):
-            if i >= size(users):
-                return HttpResponse("init success")
-            user = users[i + 1]
-            i += 1
-            open_broadcast_impl(user, Anchor.objects.get(user=user), category, u'开播啦~')
-
-    return HttpResponse("init success")
+   return json_func(request)
