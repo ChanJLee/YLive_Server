@@ -254,9 +254,9 @@ def watch_program(request, room_id, *args, **kwargs):
         put = QueryDict(request.body)
         code = int(put['state'])
         if code == CODE_EXIT:
-            room.count = room.count - 1
+            room.count -= 1
         elif code == CODE_ENTER:
-            room.count = room.count + 1
+            room.count += 1
         else:
             return return_error(u'错误参数')
         room.save()
