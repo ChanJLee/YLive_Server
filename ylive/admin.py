@@ -1,7 +1,8 @@
 # coding=utf-8
+import os
+
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from numpy import size
 
 from AnchorModel.models import Anchor, UserToAnchorRelationship
 from CategoryModel.admin import CategoryModel
@@ -66,4 +67,14 @@ def init_follow(request):
 
 
 def foo(request):
-   return json_func(request)
+    dir_name = ['music', 'sport', 'show', 'desktop_game', 'pet']
+    for dir in dir_name:
+        path = '/Users/chan/Pictures/images/' + dir
+        files = os.listdir(path)
+        for file in files:
+            if file[0] == '.':
+                continue
+            target = path + '/' + file
+            print target
+            os.rename(target, target + ".jpg")
+    return HttpResponse("ok")

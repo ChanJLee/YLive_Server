@@ -4,7 +4,6 @@ from operator import eq
 
 from django.contrib import auth
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.http import QueryDict
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +12,10 @@ from rest_framework import serializers
 from AnchorModel.models import Anchor
 from CategoryModel.admin import CategoryModel
 from RoomModel.models import RoomModel
-from decor.decor import put_only, post_only, return_error, return_message, login_required, CODE_NO_AUTHENTICATION
+from decor.decor import put_only, post_only, return_error, return_message, login_required, CODE_NO_AUTHENTICATION, \
+    CODE_OK
+from misc.base import JsonSerializer, create_response
+from ylive.settings import STATIC_FILE_SERVER_CONFIG
 
 
 @csrf_exempt
@@ -158,7 +160,7 @@ def write_snapshot(category, username):
     print files
 
     src_path = src_dir + '/' + files[1]
-    des_path = des_dir + "/" + username
+    des_path = des_dir + "/" + username + '.jpg'
     if os.path.exists(des_path):
         return
 
@@ -200,14 +202,14 @@ class Room:
 class RoomSerializer(serializers.Serializer):
     id = serializers.IntegerField(default=-1)
     title = serializers.CharField(max_length=40)
-    snapshot = serializers.CharField(max_length=50)
+    snapshot = serializers.URLField()
     anchor = serializers.CharField(max_length=20)
     audienceCount = serializers.IntegerField(default=-1)
 
-class LinearRoomSerializer(serializers.Serializer):
-#    code = serializers.IntegerField(default=CODE_OK, required=False)
-#    message = serializers.CharField(max_length=20, default=u'Ok', required=False)
-    rooms = RoomSerializer(many=True)
+
+class RoomResponseSerializer(JsonSerializer):
+    data = RoomSerializer(many=True)
+
 
 def fetch_rooms(request, category):
     if not category or not CATEGORY_MAP[int(category)]:
@@ -216,25 +218,16 @@ def fetch_rooms(request, category):
     index = 0
     if 'page' in request.GET:
         index = int(request.GET['page'])
-    rooms = RoomModel.objects.all()
-    print rooms
+    rooms = RoomModel.objects.all()[index * 10: (index + 1) * 10]
     response = []
     for room in rooms:
-        roomResponse = Room(room.id, room.title, room_snapshot(category, room.ownerId.user.username),
+        roomResponse = Room(room.id, room.title, room_snapshot(category.name, room.ownerId.user.username),
                             room.ownerId.user.last_name, room.count)
-        response.append(roomResponse)
-    serializer = RoomSerializer(response)
-    #serializer = LinearRoomSerializer(serializer)
-    list = []
-    x = RoomSerializer(Room(10, u'haha', 'http://hahah', 'what', 10))
-    list.append(x)
-    foo = LinearRoomSerializer(data=list)
-    foo.is_valid()
-    print foo.data
-    return JsonResponse(data=foo.data, safe=False)
+        response.append(RoomSerializer(roomResponse).data)
+    return create_response(CODE_OK, u'Ok', response, RoomResponseSerializer)
+
 
 def room_snapshot(category, username):
-    dir_name = 'music'
     if eq(category, u'音乐'):
         dir_name = 'music'
     elif eq(category, u'户外'):
@@ -245,4 +238,27 @@ def room_snapshot(category, username):
         dir_name = 'desktop_game'
     else:
         dir_name = 'pet'
-    return "http://localhost:8000/%s/%s" % (dir_name, username)
+    return "http://%s:%s/%s/%s.jpg" % (
+    STATIC_FILE_SERVER_CONFIG['ip'], STATIC_FILE_SERVER_CONFIG['port'], dir_name, username)
+
+
+CODE_EXIT = 0
+CODE_ENTER = 1
+
+
+@put_only
+def watch_program(request, room_id, *args, **kwargs):
+    id = int(room_id)
+    try:
+        room = RoomModel.objects.get(id=id)
+        put = QueryDict(request.body)
+        code = int(put['state'])
+        if code == CODE_EXIT:
+            room.count = room.count - 1
+        elif code == CODE_ENTER:
+            room.count = room.count + 1
+        else:
+            return return_error(u'错误参数')
+        room.save()
+    except Exception as e:
+        return return_error(u'改房间还没有开播')

@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from ylive.admin import init_category, init_user, init_anchor, init_follow, foo
-from ylive.view import login, register, logout, open_broadcast, fetch_rooms
+from ylive.view import login, register, logout, open_broadcast, fetch_rooms, watch_program
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^admin/init/follow/$', init_follow),
     url(r'^foo/$', foo),
     url(r'^anchor/broadcast/open/$', open_broadcast),
-    url(r'^program/(?P<category>[0-9A-Za-z]+)/$', fetch_rooms)
+    url(r'^program/(?P<category>[0-9A-Za-z]+)/$', fetch_rooms),
+    url(r'^program/room/(?P<room_id>[0-9A-Za-z]+)/$', watch_program)
 ]

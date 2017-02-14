@@ -31,3 +31,8 @@ def parse_form(request):
 
 def parse_multipart(request):
     return request.parse_file_upload(request.META, request)
+
+
+def create_response(code, message, data, response_serializer):
+    json = Json(code, message, data)
+    return JsonResponse(data=response_serializer(json).data, safe=False)

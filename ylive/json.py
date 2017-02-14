@@ -65,6 +65,7 @@ class Record:
 class RecordSerializers(serializers.Serializer):
     comments = CommentSerializers(many=True)
 
+
 class Message:
     def __init__(self, src):
         self.src = src
@@ -80,15 +81,19 @@ class Base:
         self.message = message
         self.data = data
 
+
 class BaseSerializer(serializers.Serializer):
     code = serializers.IntegerField()
     message = serializers.CharField(max_length=20)
 
+
 class MessageResponseSerializer(BaseSerializer):
     data = MessageSerializer(required=False)
 
+
 def json_func(request):
     return test_base()
+
 
 def test_base():
     msg = Message("http://localhost:8080")
@@ -96,11 +101,13 @@ def test_base():
     base = Base(10, 'ok', serializer.data)
     return JsonResponse(data=MessageResponseSerializer(base).data, safe=False)
 
+
 def test_response():
     msg = Message("http://localhost:8080")
     serializer = MessageSerializer(msg)
     response = Base(200, u'ok', serializer.data)
     return JsonResponse(data=BaseSerializer(response).data, safe=False)
+
 
 def test_link():
     msg = Message("http://localhost:8080")

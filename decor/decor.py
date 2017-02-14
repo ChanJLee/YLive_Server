@@ -60,6 +60,7 @@ CODE_OK = 0x200
 CODE_EXCEPTION = 0x300
 CODE_NO_AUTHENTICATION = 0x400
 
+
 class MessageSerializer(JsonSerializer):
     data = serializers.CharField(required=None)
 
