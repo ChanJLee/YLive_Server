@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from AnchorModel.views import open_broadcast
+from RoomModel.views import fetch_rooms, watch_program
 from ylive.admin import init_category, init_user, init_anchor, init_follow, foo
-from ylive.view import login, register, logout, open_broadcast, fetch_rooms, watch_program
+from ylive.view import login, register, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

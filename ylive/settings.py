@@ -82,8 +82,8 @@ DATABASES = {
         'PASSWORD': '19940525',
         'HOST': 'localhost',
         'PORT': '3306',
-        'OPTIONS': {
-            'read_default_file': '../mysql.cnf',
+         'OPTIONS': {
+            'read_default_file': '/Users/chan/PycharmProjects/YLive_Server/mysql.cnf',
         },
     }
 }
@@ -113,7 +113,8 @@ AUTHENTICATION_BACKENDS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+
+LANGUAGE_CODE = 'zh-cn'
 
 TIME_ZONE = 'UTC'
 
@@ -129,6 +130,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_FILE_SERVER_CONFIG = {
-    'ip' : '192.168.1.100',
-    'port' : '8080'
+    'ip': '192.168.1.100',
+    'port': '8080'
 }

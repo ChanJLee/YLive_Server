@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 from AnchorModel.models import Anchor, UserToAnchorRelationship
-from CategoryModel.admin import CategoryModel
+from CategoryModel.models import CategoryModel
 from ylive.json import json_func
 
 categories = [u'户外', u'运动', u'科教', u'手游', u'桌游']
@@ -24,11 +24,11 @@ def add_category(category):
 
 
 def init_user(request):
-    for i in range(0, 20):
+    for i in range(0, 50):
         username = ("user%d" % i)
         password = "1234"
         email = "wuliyichen@gmail.com"
-        user = User.objects.create_user(username, email, password)
+        user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
     return HttpResponse("add user success")
 
@@ -67,14 +67,15 @@ def init_follow(request):
 
 
 def foo(request):
-    dir_name = ['music', 'sport', 'show', 'desktop_game', 'pet']
-    for dir in dir_name:
-        path = '/Users/chan/Pictures/images/' + dir
-        files = os.listdir(path)
-        for file in files:
-            if file[0] == '.':
-                continue
-            target = path + '/' + file
-            print target
-            os.rename(target, target + ".jpg")
-    return HttpResponse("ok")
+    # dir_name = ['music', 'sport', 'show', 'desktop_game', 'pet']
+    # for dir in dir_name:
+    #     path = '/Users/chan/Pictures/images/' + dir
+    #     files = os.listdir(path)
+    #     for file in files:
+    #         if file[0] == '.':
+    #             continue
+    #         target = path + '/' + file
+    #         print target
+    #         os.rename(target, target + ".jpg")
+    # return HttpResponse("ok")
+    return init_category(request)

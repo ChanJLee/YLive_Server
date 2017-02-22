@@ -1,7 +1,11 @@
+#coding=utf-8
+
 from django.http import JsonResponse
 from django.http import QueryDict
 from rest_framework import serializers
 
+DIR = '/Users/chan/Pictures/images/'
+DEFAULT_CHAR_LENGTH = 40
 
 class Json:
     def __init__(self, code, message, data):
@@ -11,8 +15,14 @@ class Json:
 
 
 class JsonSerializer(serializers.Serializer):
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
     code = serializers.IntegerField()
-    message = serializers.CharField(max_length=20)
+    message = serializers.CharField(max_length=DEFAULT_CHAR_LENGTH)
 
     def createResponse(self):
         return JsonResponse(data=self.data, safe=False)

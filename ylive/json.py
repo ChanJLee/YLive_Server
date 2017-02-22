@@ -2,6 +2,8 @@
 from django.http import JsonResponse
 from rest_framework import serializers
 
+from misc.base import DEFAULT_CHAR_LENGTH
+
 
 class Date:
     def __init__(self, year, month, day):
@@ -54,7 +56,7 @@ class Comment:
 class CommentSerializers(serializers.Serializer):
     data = DateSerializers(required=False)
     code = serializers.IntegerField()
-    message = serializers.CharField(max_length=20)
+    message = serializers.CharField(max_length=DEFAULT_CHAR_LENGTH)
 
 
 class Record:
@@ -84,7 +86,7 @@ class Base:
 
 class BaseSerializer(serializers.Serializer):
     code = serializers.IntegerField()
-    message = serializers.CharField(max_length=20)
+    message = serializers.CharField(max_length=DEFAULT_CHAR_LENGTH)
 
 
 class MessageResponseSerializer(BaseSerializer):
