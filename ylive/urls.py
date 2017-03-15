@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from AnchorModel.views import open_broadcast
+from AnchorModel.views import open_broadcast, close_broadcast
 from RoomModel.views import fetch_rooms, watch_program
 from ylive.admin import init_category, init_user, init_anchor, init_follow, foo
 from ylive.view import login, register, logout
@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^admin/init/follow/$', init_follow),
     url(r'^foo/$', foo),
     url(r'^anchor/broadcast/open/$', open_broadcast),
+    url(r'^anchor/broadcast/close/$', close_broadcast),
     url(r'^program/(?P<category>[0-9A-Za-z]+)/$', fetch_rooms),
     url(r'^program/room/(?P<room_id>[0-9A-Za-z]+)/$', watch_program)
 ]

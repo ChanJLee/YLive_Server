@@ -1,6 +1,7 @@
 # encoding=utf-8
 
 from django.contrib import auth
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import QueryDict
 from django.template.context_processors import csrf
@@ -8,7 +9,19 @@ from django.views.decorators.csrf import csrf_exempt
 
 from decor.decor import put_only, post_only, return_error, return_message, login_required, CODE_NO_AUTHENTICATION
 
+'''
+/user/login/
+put
 
+username : user0
+password : 1234
+
+{
+    "code": 512,
+    "message": "登录成功",
+    "data": null
+}
+'''
 @csrf_exempt
 @put_only
 def login(request, *args, **kwargs):
@@ -33,13 +46,23 @@ def login(request, *args, **kwargs):
     return response
 
 
-def authenticate(username=None, password=None):
-    try:
-        return User.objects.get(username=username, password=password)
-    except Exception as e:
-        return None
+# def authenticate(username=None, password=None):
+#     try:
+#         return User.objects.get(username=username)
+#     except Exception as e:
+#         return None
 
+'''
+/user/logout/
+put
+X-CSRFToken
 
+{
+    "code": 512,
+    "message": "登出成功",
+    "data": null
+}
+'''
 @put_only
 @login_required
 def logout(request, *args, **kwargs):
@@ -49,7 +72,26 @@ def logout(request, *args, **kwargs):
     auth.logout(request)
     return return_message(u"登出成功")
 
+'''
+/user/register/
+post
 
+username
+password
+email
+
+{
+    "code": 512,
+    "message": "注册成功",
+    "data": null
+}
+
+{
+    "code": 768,
+    "message": "user0已经被注册",
+    "data": null
+}
+'''
 @csrf_exempt
 @post_only
 def register(request, *args, **kwargs):

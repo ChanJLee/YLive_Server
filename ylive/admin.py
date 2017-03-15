@@ -8,8 +8,7 @@ from AnchorModel.models import Anchor, UserToAnchorRelationship
 from CategoryModel.models import CategoryModel
 from ylive.json import json_func
 
-categories = [u'户外', u'运动', u'科教', u'手游', u'桌游']
-
+categories = [u'星秀', u'户外', u'音乐', u'宠物', u'桌游']
 
 def init_category(request):
     for category in categories:

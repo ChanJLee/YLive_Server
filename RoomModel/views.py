@@ -33,7 +33,29 @@ class RoomSerializer(serializers.Serializer):
 class RoomResponseSerializer(JsonSerializer):
     data = RoomSerializer(many=True)
 
-#获取房间列表
+
+'''
+get
+program/{id}/?page=1
+
+
+{
+    "code": 512,
+    "message": "Ok",
+    "data": [
+        {
+            "id": 4,
+            "title": "开播啦",
+            "snapshot": "http://192.168.1.102:8080/show/user12.jpg",
+            "anchor": "",
+            "audienceCount": 0
+        }
+    ]
+}
+'''
+
+
+# 获取房间列表
 def fetch_rooms(request, category):
     if not category or not CATEGORY_MAP[int(category)]:
         return return_error(u"类别有误")
@@ -65,23 +87,50 @@ def room_snapshot(category, username):
         STATIC_FILE_SERVER_CONFIG['ip'], STATIC_FILE_SERVER_CONFIG['port'], dir_name, username)
 
 
+'''
+program/room/{room_id}/
+
+put
+
+{
+    "code": 512,
+    "message": "OK",
+    "data": {
+        "chat_room": "spark@reference.192.168.1.101",
+        "title": "开播啦",
+        "count": 14,
+        "owner_name": "user12",
+        "owner_id": 13
+    }
+}
+
+delete
+{
+    "code": 512,
+    "message": "退出房间成功",
+    "data": null
+}
+'''
+
+
 def watch_program(request, room_id, *args, **kwargs):
     try:
         if request.method == 'DELETE':
-            do_delete_watch_program(request, room_id, args, kwargs)
+            return do_delete_watch_program(request, room_id, args, kwargs)
         elif request.method == 'PUT':
-            do_put_watch_program(request, room_id, args, kwargs)
+            return do_put_watch_program(request, room_id, args, kwargs)
         else:
             return return_error(u'仅支持delete和post')
     except Exception as e:
-        return return_error(u'该房间还没有开播')
+        return return_error(u'服务端异常')
 
 
 def do_delete_watch_program(request, room_id, *args, **kwargs):
     id = int(room_id)
     room = RoomModel.objects.get(id=id)
-    room.count -= 1
-    room.save()
+    if room.count != 0:
+        room.count -= 1
+        room.save()
     return return_message(u'退出房间成功')
 
 
@@ -95,7 +144,7 @@ class Program:
 
 
 class ProgramSerializer(serializers.Serializer):
-    chat_root = serializers.EmailField(required=True)
+    chat_room = serializers.EmailField(required=True)
     title = serializers.CharField(max_length=DEFAULT_CHAR_LENGTH)
     count = serializers.IntegerField(default=0)
     owner_name = serializers.CharField(max_length=DEFAULT_CHAR_LENGTH)
@@ -115,38 +164,20 @@ def do_put_watch_program(request, room_id, *args, **kwargs):
     owner = room.ownerId.user
     uri = ("/chat_room/?room_name=%s" % cal_room_name(owner))
 
-    connection = httplib.HTTPConnection("localhost", 8080)
-    connection.request("GET", uri, None)
-    response = connection.getresponse()
-    jid = response.read()
-
-    if not jid:
-        return return_error(u"can't get jid")
-
-
-PARAM_ANCHOR_ID = u"anchor_id"
-
-
-class RoomInfo:
-    def __init__(self, jid, title, ):
-        pass
-
-
-def fetch_room_info(request):
-    if not PARAM_ANCHOR_ID in request.GET or not request.GET[PARAM_ANCHOR_ID]:
-        return return_error((u"%s can't be null" % PARAM_ANCHOR_ID))
-    anchorId = request.GET[PARAM_ANCHOR_ID]
-
-    uri = ("/chat_room/?room_name=%s" % anchorId)
-
-    connection = httplib.HTTPConnection("localhost", 8080)
-    connection.request("GET", uri, None)
-    response = connection.getresponse()
-    jid = response.read()
-
-    if not jid:
-        return return_error(u"can't get jid")
+    try:
+        connection = httplib.HTTPConnection("localhost", 8080)
+        connection.request("GET", uri, None)
+        response = connection.getresponse()
+        jid = response.read()
+        if not jid:
+            return return_error(u"连接弹幕服务器失败")
+        program = Program(chat_room=jid, title=room.title, count=room.count, owner_id=room.ownerId.id,
+                          owner_name=room.ownerId.user.username)
+        return create_response(CODE_OK, u"OK", ProgramSerializer(program).data, ProgramResponseSerializer)
+    except Exception as e:
+        print e.message
+        return return_error(u"连接弹幕服务器失败")
 
 
 def cal_room_name(user):
-    return ("room_%d" % user.id)
+    return "room_%d" % user.id

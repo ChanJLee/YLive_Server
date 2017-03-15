@@ -15,15 +15,32 @@ CATEGORY_SPORT = 0x0522
 CATEGORY_PET = 0x0523
 CATEGORY_MUSIC = 0x0524
 CATEGORY_DESKTOP_GAME = 0x0525
-KEY_CATEGORY = 'category'
-KEY_TITLE = "title"
+KEY_CATEGORY = u"category"
+KEY_TITLE = u"title"
+
 CATEGORY_MAP = {
-    CATEGORY_SHOW: u'星秀',
-    CATEGORY_SPORT: u'户外',
-    CATEGORY_MUSIC: u'音乐',
-    CATEGORY_PET: u'宠物',
-    CATEGORY_DESKTOP_GAME: u'桌游'
+    CATEGORY_SHOW: u"星秀",
+    CATEGORY_SPORT: u"户外",
+    CATEGORY_MUSIC: u"音乐",
+    CATEGORY_PET: u"宠物",
+    CATEGORY_DESKTOP_GAME: u"桌游"
 }
+
+'''
+开播
+
+put
+
+form:
+category
+title
+
+{
+    "code": 768,
+    "message": "你已经开播了",
+    "data": null
+}
+'''
 
 
 @put_only
@@ -35,7 +52,16 @@ def open_broadcast(request, *arg, **kwargs):
     if anchor is None:
         return return_error(u"你还不是主播，请申请后再开播")
 
+    try:
+        RoomModel.objects.get(ownerId=anchor)
+        return return_error(u'你已经开播了')
+    except Exception as e:
+        pass
+
     put = QueryDict(request.body)
+
+    if KEY_CATEGORY not in put:
+        return return_error(u"类别有误")
 
     category = put[KEY_CATEGORY]
     if not category or not CATEGORY_MAP[int(category)]:
@@ -45,10 +71,12 @@ def open_broadcast(request, *arg, **kwargs):
     if not title:
         return return_error(u"标题不能为空")
 
-    category = CategoryModel.objects.get(name=CATEGORY_MAP[int(category)])
-    if not category:
+    category_name = CATEGORY_MAP[int(category)]
+    try:
+        category = CategoryModel.objects.get(name=category_name)
+    except Exception as e:
+        print e.message
         return return_error(u"类别有误")
-
     open_broadcast_impl(user, anchor, category, title)
     return return_message(u"开播成功")
 
@@ -60,7 +88,6 @@ def open_broadcast_impl(user, anchor, category, title):
     room.categoryId = category
     room.ownerId = anchor
     room.save()
-
 
 
 def write_snapshot(category, username):
@@ -99,6 +126,17 @@ def write_snapshot(category, username):
     os.remove(src_path)
 
 
+'''
+put
+
+{
+    "code": 512,
+    "message": "关播成功",
+    "data": null
+}
+'''
+
+
 @put_only
 @login_required
 def close_broadcast(request, *arg, **kwargs):
@@ -106,8 +144,9 @@ def close_broadcast(request, *arg, **kwargs):
     anchor = Anchor.objects.filter(user=user)
     if anchor is None:
         return return_error(u"你还不是主播，请申请后再开播")
-    room = RoomModel.objects.get(ownerId=anchor)
-    if not room:
+    try:
+        room = RoomModel.objects.get(ownerId=anchor)
+        room.delete()
+        return return_message(u'关播成功')
+    except:
         return return_message(u"你还没有开播")
-    room.delete()
-    return return_message(u'关播成功')

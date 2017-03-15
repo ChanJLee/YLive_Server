@@ -1,7 +1,10 @@
 # encoding=utf-8
+from operator import eq
+
+from django.contrib.auth.models import AnonymousUser
 from rest_framework import serializers
 
-from misc.base import Json, JsonSerializer
+from misc.base import JsonSerializer, create_response
 
 CODE_OK = 0x200
 CODE_EXCEPTION = 0x300
@@ -13,13 +16,11 @@ class MessageSerializer(JsonSerializer):
 
 
 def return_error(message, code=CODE_EXCEPTION):
-    json = Json(code, message, None)
-    return MessageSerializer(json).createResponse()
+    return create_response(code, message, None, MessageSerializer)
 
 
 def return_message(message):
-    json = Json(CODE_OK, message, None)
-    return JsonSerializer(json).createResponse()
+    return create_response(CODE_OK, message, None, MessageSerializer)
 
 
 def post_only(func):
@@ -61,7 +62,7 @@ def get_only(func):
 def login_required(func):
     def func_wrapper(request, *args, **kwargs):
         user = request.user
-        if not user and not user.is_authenticated():
+        if (not user) or (not user.is_authenticated()):
             return return_error(u"当前用户并没有登录", code=CODE_NO_AUTHENTICATION)
         return func(request, args, kwargs)
 

@@ -24,7 +24,7 @@ SECRET_KEY = ')h5$fi&bo1-=pu496e5e#t86vi4^fufl__^9vgylu+evhxufwj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.104', '192.168.1.100', '192.168.1.101']
+ALLOWED_HOSTS = ['192.168.1.104', '192.168.1.100', '192.168.1.101', '192.168.1.102']
 
 # Application definition
 
@@ -130,6 +130,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_FILE_SERVER_CONFIG = {
-    'ip': '192.168.1.100',
+    'ip': '192.168.1.102',
     'port': '8080'
 }
