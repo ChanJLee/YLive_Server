@@ -2,6 +2,7 @@
 import httplib
 from operator import eq
 
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from AnchorModel.views import CATEGORY_MAP
@@ -9,6 +10,7 @@ from CategoryModel.models import CategoryModel
 from RoomModel.models import RoomModel
 from decor.decor import return_error, CODE_OK, return_message
 from misc.base import JsonSerializer, create_response, DEFAULT_CHAR_LENGTH
+from misc.xmpp import create_chat_room, query_chat_room
 from ylive.settings import STATIC_FILE_SERVER_CONFIG
 
 
@@ -162,13 +164,8 @@ def do_put_watch_program(request, room_id, *args, **kwargs):
     room.save()
 
     owner = room.ownerId.user
-    uri = ("/chat_room/?room_name=%s" % cal_room_name(owner))
-
     try:
-        connection = httplib.HTTPConnection("localhost", 8080)
-        connection.request("GET", uri, None)
-        response = connection.getresponse()
-        jid = response.read()
+        jid = query_chat_room(owner)
         if not jid:
             return return_error(u"连接弹幕服务器失败")
         program = Program(chat_room=jid, title=room.title, count=room.count, owner_id=room.ownerId.id,
@@ -179,5 +176,11 @@ def do_put_watch_program(request, room_id, *args, **kwargs):
         return return_error(u"连接弹幕服务器失败")
 
 
-def cal_room_name(user):
-    return "room_%d" % user.id
+def init_chat_room(request):
+    for user in User.objects.all():
+        try:
+            create_chat_room(user)
+        except Exception as e:
+            print e.message
+            return_error(u"failed")
+    return return_message(u"ok")

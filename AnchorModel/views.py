@@ -4,10 +4,10 @@ from operator import eq
 
 from django.http import QueryDict
 
-from AnchorModel.models import Anchor
+from AnchorModel.models import Anchor, UserToAnchorRelationship
 from CategoryModel.models import CategoryModel
 from RoomModel.models import RoomModel
-from decor.decor import put_only, login_required, return_error, return_message
+from decor.decor import put_only, login_required, return_error, return_message, post_only
 from misc.base import DIR
 
 CATEGORY_SHOW = 0x0521
@@ -150,3 +150,65 @@ def close_broadcast(request, *arg, **kwargs):
         return return_message(u'关播成功')
     except:
         return return_message(u"你还没有开播")
+
+
+@post_only
+@login_required
+def register_anchor(request):
+    user = request.user
+    try:
+        Anchor.objects.get(user=user)
+        return return_error(u"你已经是主播了")
+    except Exception as e:
+        print "i/AnchorModel register_anchor ", e.message
+
+    anchor = Anchor(user=user)
+    anchor.save()
+    return return_message(u"注册成功")
+
+
+ANCHOR_ID = "anchor_id"
+
+
+@login_required
+def follow_anchor(request):
+    put = QueryDict(request.body)
+    if ANCHOR_ID not in put:
+        return return_error(u"缺少anchor id")
+    if request.method == "PUT":
+        return put_follow(request)
+    elif request.method == "DELETE":
+        return delete_follow(request)
+    else:
+        return return_error(u"不支持请求")
+
+
+def put_follow(request):
+    put = QueryDict(request.body)
+    anchor_id = put[ANCHOR_ID]
+    try:
+        anchor = Anchor.objects.get(id=anchor_id)
+        try:
+            UserToAnchorRelationship.objects.get(audience=request.user, anchor=anchor)
+            return return_error(u"已经关注过了")
+        except:
+            pass
+        relationship = UserToAnchorRelationship(audience=request.user, anchor=anchor)
+        relationship.save()
+        return
+    except Exception as e:
+        print u"anchor model follow_anchor", e.message
+        return return_error(u"error")
+
+
+def delete_follow(request):
+    put = QueryDict(request.body)
+    anchor_id = put[ANCHOR_ID]
+    try:
+        anchor = Anchor.objects.get(id=anchor_id)
+        relationship = UserToAnchorRelationship.objects.get(audience=request.user, anchor=anchor)
+        relationship.delete()
+        return return_message(u"ok")
+    except Exception as e:
+        print u"anchor model follow_anchor", e.message
+        return return_error(u"还未关注过")
