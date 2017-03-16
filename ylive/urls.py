@@ -23,30 +23,30 @@ from ylive.view import login, register, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #登录
+    # 登录
     url(r'^user/login/$', login),
-    #注册
+    # 注册
     url(r'^user/register/$', register),
-    #登出
+    # 登出
     url(r'^user/logout/$', logout),
-    #初始化
+    # 初始化
     url(r'^admin/init/category/$', init_category),
     url(r'^admin/init/user/$', init_user),
     url(r'^admin/init/anchor/$', init_anchor),
     url(r'^admin/init/follow/$', init_follow),
     url(r'^admin/init/chat_room/$', init_chat_room),
-    #测试
+    # 测试
     url(r'^foo/$', foo),
-    #开播
+    # 开播
     url(r'^anchor/broadcast/open/$', open_broadcast),
-    #关播
+    # 关播
     url(r'^anchor/broadcast/close/$', close_broadcast),
-    #获取房间列表
+    # 获取房间列表
     url(r'^program/(?P<category>[0-9A-Za-z]+)/$', fetch_rooms),
-    #观看直播
+    # 观看直播
     url(r'^program/room/(?P<room_id>[0-9A-Za-z]+)/$', watch_program),
-    #注册主播
-    url(r'^anchor/register/$',register_anchor),
-    #关注 取关
+    # 注册主播
+    url(r'^anchor/register/$', register_anchor),
+    # 关注 取关
     url(r'^anchor/follow/$', follow_anchor),
 ]
