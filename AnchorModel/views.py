@@ -154,7 +154,7 @@ def close_broadcast(request, *arg, **kwargs):
 
 @post_only
 @login_required
-def register_anchor(request):
+def register_anchor(request, *arg, **kwargs):
     user = request.user
     try:
         Anchor.objects.get(user=user)
@@ -171,7 +171,7 @@ ANCHOR_ID = "anchor_id"
 
 
 @login_required
-def follow_anchor(request):
+def follow_anchor(request, *arg, **kwargs):
     put = QueryDict(request.body)
     if ANCHOR_ID not in put:
         return return_error(u"缺少anchor id")
@@ -195,7 +195,7 @@ def put_follow(request):
             pass
         relationship = UserToAnchorRelationship(audience=request.user, anchor=anchor)
         relationship.save()
-        return
+        return return_message(u"关注成功")
     except Exception as e:
         print u"anchor model follow_anchor", e.message
         return return_error(u"error")
@@ -208,7 +208,7 @@ def delete_follow(request):
         anchor = Anchor.objects.get(id=anchor_id)
         relationship = UserToAnchorRelationship.objects.get(audience=request.user, anchor=anchor)
         relationship.delete()
-        return return_message(u"ok")
+        return return_message(u"取关成功")
     except Exception as e:
         print u"anchor model follow_anchor", e.message
         return return_error(u"还未关注过")
