@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 
 from django.http import JsonResponse
 from django.http import QueryDict
@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 DIR = '/Users/chan/Pictures/images/'
 DEFAULT_CHAR_LENGTH = 40
+
 
 class Json:
     def __init__(self, code, message, data):
@@ -46,3 +47,32 @@ def parse_multipart(request):
 def create_response(code, message, data, response_serializer):
     json = Json(code, message, data)
     return JsonResponse(data=response_serializer(json).data, safe=False)
+
+
+TAG_INFO = 0x01
+TAG_WARNING = 0x02
+TAG_ERROR = 0x04
+
+
+def log_info(where, message):
+    log_info(TAG_INFO, where=where, message=message)
+
+
+def log_warning(where, message):
+    log(TAG_WARNING, where=where, message=message)
+
+
+def log_error(where, message):
+    log(TAG_ERROR, where=where, message=message)
+
+
+def log(tag, message, where=None):
+    if tag == TAG_INFO:
+        print "i/",
+    elif tag == TAG_ERROR:
+        print "e/",
+    else:
+        print "w/",
+    if where:
+        print where,
+    print message

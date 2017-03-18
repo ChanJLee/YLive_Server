@@ -8,7 +8,7 @@ from AnchorModel.models import Anchor, UserToAnchorRelationship
 from CategoryModel.models import CategoryModel
 from RoomModel.models import RoomModel
 from decor.decor import put_only, login_required, return_error, return_message, post_only
-from misc.base import DIR
+from misc.base import DIR, log_info
 
 CATEGORY_SHOW = 0x0521
 CATEGORY_SPORT = 0x0522
@@ -160,7 +160,7 @@ def register_anchor(request, *arg, **kwargs):
         Anchor.objects.get(user=user)
         return return_error(u"你已经是主播了")
     except Exception as e:
-        print "i/AnchorModel register_anchor ", e.message
+        log_info(register_anchor.__name__, e.message)
 
     anchor = Anchor(user=user)
     anchor.save()
@@ -169,7 +169,23 @@ def register_anchor(request, *arg, **kwargs):
 
 ANCHOR_ID = "anchor_id"
 
+'''
+put
 
+{
+    "code": 512,
+    "message": "关注成功",
+    "data": null
+}
+
+delete
+
+{
+    "code": 512,
+    "message": "取关成功",
+    "data": null
+}
+'''
 @login_required
 def follow_anchor(request, *arg, **kwargs):
     put = QueryDict(request.body)
@@ -197,8 +213,8 @@ def put_follow(request):
         relationship.save()
         return return_message(u"关注成功")
     except Exception as e:
-        print u"anchor model follow_anchor", e.message
-        return return_error(u"error")
+        log_info(put_follow.__name__, e.message)
+        return return_error(u"未知错误")
 
 
 def delete_follow(request):
@@ -210,5 +226,5 @@ def delete_follow(request):
         relationship.delete()
         return return_message(u"取关成功")
     except Exception as e:
-        print u"anchor model follow_anchor", e.message
+        log_info(delete_follow.__name__, e.message)
         return return_error(u"还未关注过")
