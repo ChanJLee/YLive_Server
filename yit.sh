@@ -13,8 +13,7 @@ if [[ -z $message ]]; then
   message="default message"
 fi
 
-echo "branch is -> $branch"
-echo "message is -> $message"
+echo "I love wenYu Lee"
 
 git pull origin $branch
 echo "pull code from branch $branch"
