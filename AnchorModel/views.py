@@ -81,6 +81,24 @@ def open_broadcast(request, *arg, **kwargs):
     return return_message(u"开播成功")
 
 
+def init_broadcast(request):
+    category = [0x0521,
+                0x0522,
+                0x0523,
+                0x0524,
+                0x0525]
+    for c in category:
+        x = CATEGORY_MAP[int(c)]
+        xx = CategoryModel.objects.get(name=x)
+        anchors = Anchor.objects.all()
+        count = anchors.count()
+        for i in range(20):
+            if i > count:
+                break
+            a = anchors[i]
+            open_broadcast_impl(a.user, a, xx, "开播啦")
+    return return_message("ok")
+
 def open_broadcast_impl(user, anchor, category, title):
     write_snapshot(category.name, user.username)
     room = RoomModel()
@@ -186,6 +204,8 @@ delete
     "data": null
 }
 '''
+
+
 @login_required
 def follow_anchor(request, *arg, **kwargs):
     put = QueryDict(request.body)

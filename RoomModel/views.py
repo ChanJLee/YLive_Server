@@ -21,7 +21,6 @@ class Room:
         self.snapshot = snapshot
         self.anchor = anchor
         self.audienceCount = audience_count
-        pass
 
 
 class RoomSerializer(serializers.Serializer):
@@ -61,11 +60,12 @@ program/{id}/?page=1
 def fetch_rooms(request, category):
     if not category or not CATEGORY_MAP[int(category)]:
         return return_error(u"类别有误")
-    category = CategoryModel.objects.get(name=CATEGORY_MAP[int(category)])
+    name = CATEGORY_MAP[int(category)]
+    category = CategoryModel.objects.get(name=name)
     index = 0
     if 'page' in request.GET:
         index = int(request.GET['page'])
-    rooms = RoomModel.objects.all()[index * 10: (index + 1) * 10]
+    rooms = RoomModel.objects.filter(categoryId=category.id)[(index - 1) * 10: index * 10]
     response = []
     for room in rooms:
         roomResponse = Room(room.id, room.title, room_snapshot(category.name, room.ownerId.user.username),

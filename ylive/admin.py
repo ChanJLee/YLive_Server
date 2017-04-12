@@ -23,12 +23,18 @@ def add_category(category):
 
 
 def init_user(request):
-    for i in range(0, 50):
-        username = ("user%d" % i)
-        password = "1234"
-        email = "wuliyichen@gmail.com"
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.save()
+    # for i in range(0, 50):
+    #     username = ("user%d" % i)
+    #     password = "1234"
+    #     email = "wuliyichen@gmail.com"
+    #     user = User.objects.create_user(username=username, email=email, password=password)
+    #     user.save()
+    # return HttpResponse("add user success")
+
+    for u in User.objects.all():
+        u.first_name = "葫芦岛"
+        u.last_name = "吴奇隆"
+        u.save()
     return HttpResponse("add user success")
 
 

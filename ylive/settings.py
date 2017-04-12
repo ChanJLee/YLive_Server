@@ -24,7 +24,8 @@ SECRET_KEY = ')h5$fi&bo1-=pu496e5e#t86vi4^fufl__^9vgylu+evhxufwj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.104', '192.168.1.100', '192.168.1.101', '192.168.1.102', '10.21.127.153']
+ALLOWED_HOSTS = ['192.168.1.103', '10.21.88.228', '192.168.1.104', '192.168.1.100', '192.168.1.101', '192.168.1.102',
+                 '10.21.127.153']
 
 # Application definition
 
@@ -82,7 +83,7 @@ DATABASES = {
         'PASSWORD': '19940525',
         'HOST': 'localhost',
         'PORT': '3306',
-         'OPTIONS': {
+        'OPTIONS': {
             'read_default_file': '/Users/chan/PycharmProjects/YLive_Server/mysql.cnf',
         },
     }
@@ -130,6 +131,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_FILE_SERVER_CONFIG = {
-    'ip': '192.168.1.102',
+    'ip': '192.168.1.103',
     'port': '8080'
 }
