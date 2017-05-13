@@ -17,7 +17,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from AnchorModel.views import open_broadcast, close_broadcast, register_anchor, follow_anchor, init_broadcast
+from AnchorModel.views import open_broadcast, close_broadcast, register_anchor, follow_anchor, init_broadcast, \
+    has_live_permission
 from RoomModel.views import fetch_rooms, watch_program, init_chat_room
 from ylive.admin import init_category, init_user, init_anchor, init_follow, foo
 from ylive.view import login, register, logout
@@ -41,6 +42,7 @@ urlpatterns = [
     url(r'^foo/$', foo),
     # 开播
     url(r'^anchor/broadcast/open/$', open_broadcast),
+    url(r'^anchor/broadcast/permission/$', has_live_permission),
     # 关播
     url(r'^anchor/broadcast/close/$', close_broadcast),
     # 获取房间列表

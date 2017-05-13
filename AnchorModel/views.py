@@ -3,12 +3,15 @@ import os
 from operator import eq
 
 from django.http import QueryDict
+from rest_framework import serializers
 
 from AnchorModel.models import Anchor, UserToAnchorRelationship
 from CategoryModel.models import CategoryModel
 from RoomModel.models import RoomModel
-from decor.decor import put_only, login_required, return_error, return_message, post_only
-from misc.base import DIR, log_info
+from decor.decor import put_only, login_required, return_error, return_message, post_only, CODE_OK
+from misc.base import DIR, log_info, DEFAULT_CHAR_LENGTH, JsonSerializer, create_response, log_error
+from misc.xmpp import query_chat_room, create_chat_room
+from ylive.settings import IP, RTMP_PORT
 
 CATEGORY_SHOW = 0x0521
 CATEGORY_SPORT = 0x0522
@@ -43,7 +46,24 @@ title
 '''
 
 
-@put_only
+class Broadcast:
+    def __init__(self, title, live_url, chat_url):
+        self.title = title
+        self.live_url = live_url
+        self.chat_url = chat_url
+
+
+class BroadcastSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=DEFAULT_CHAR_LENGTH)
+    live_url = serializers.URLField(required=True)
+    chat_url = serializers.URLField(required=True)
+
+
+class BroadcastResponseSerializer(JsonSerializer):
+    data = BroadcastSerializer()
+
+
+@post_only
 @login_required
 def open_broadcast(request, *arg, **kwargs):
     user = request.user
@@ -78,7 +98,19 @@ def open_broadcast(request, *arg, **kwargs):
         print e.message
         return return_error(u"类别有误")
     open_broadcast_impl(user, anchor, category, title)
-    return return_message(u"开播成功")
+    live_url = "rtmp://%s:%s/chan_live/%s" % (IP, RTMP_PORT, user.username)
+    chat_url = create_chat_room(user)
+    broadcast = Broadcast(title=title, live_url=live_url, chat_url=chat_url)
+    return create_response(CODE_OK, "OK", BroadcastSerializer(broadcast).data, BroadcastResponseSerializer)
+
+
+def has_live_permission(request, *arg, **kwargs):
+    user = request.user
+
+    anchor = Anchor.objects.get(user=user)
+    if anchor is None:
+        return return_error(u"你还不是主播，请申请后再开播")
+    return return_message(u"Ok")
 
 
 def init_broadcast(request):
@@ -98,6 +130,7 @@ def init_broadcast(request):
             a = anchors[i]
             open_broadcast_impl(a.user, a, xx, "开播啦")
     return return_message("ok")
+
 
 def open_broadcast_impl(user, anchor, category, title):
     write_snapshot(category.name, user.username)
@@ -159,14 +192,15 @@ put
 @login_required
 def close_broadcast(request, *arg, **kwargs):
     user = request.user
-    anchor = Anchor.objects.filter(user=user)
+    anchor = Anchor.objects.get(user=user)
     if anchor is None:
         return return_error(u"你还不是主播，请申请后再开播")
     try:
         room = RoomModel.objects.get(ownerId=anchor)
         room.delete()
         return return_message(u'关播成功')
-    except:
+    except Exception as e:
+        log_error(close_broadcast, e.message)
         return return_message(u"你还没有开播")
 
 

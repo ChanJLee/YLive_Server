@@ -11,16 +11,18 @@ from RoomModel.models import RoomModel
 from decor.decor import return_error, CODE_OK, return_message
 from misc.base import JsonSerializer, create_response, DEFAULT_CHAR_LENGTH
 from misc.xmpp import create_chat_room, query_chat_room
-from ylive.settings import STATIC_FILE_SERVER_CONFIG
+from ylive.settings import STATIC_FILE_SERVER_CONFIG, IP, RTMP_PORT
 
 
 class Room:
-    def __init__(self, id, title, snapshot, anchor, audience_count):
+    def __init__(self, id, title, snapshot, anchor, audience_count, liveUrl, anchorId):
         self.id = id
         self.title = title
         self.snapshot = snapshot
         self.anchor = anchor
         self.audienceCount = audience_count
+        self.liveUrl = liveUrl
+        self.anchorId = anchorId
 
 
 class RoomSerializer(serializers.Serializer):
@@ -29,6 +31,8 @@ class RoomSerializer(serializers.Serializer):
     snapshot = serializers.URLField()
     anchor = serializers.CharField(max_length=DEFAULT_CHAR_LENGTH)
     audienceCount = serializers.IntegerField(default=-1)
+    liveUrl = serializers.URLField()
+    anchorId = serializers.IntegerField(default=-1)
 
 
 class RoomResponseSerializer(JsonSerializer):
@@ -68,8 +72,9 @@ def fetch_rooms(request, category):
     rooms = RoomModel.objects.filter(categoryId=category.id)[(index - 1) * 10: index * 10]
     response = []
     for room in rooms:
-        roomResponse = Room(room.id, room.title, room_snapshot(category.name, room.ownerId.user.username),
-                            room.ownerId.user.last_name, room.count)
+        user = room.ownerId.user
+        roomResponse = Room(room.id, room.title, room_snapshot(category.name, user.username),
+                            room.ownerId.user.last_name, room.count, room_live_url(user), room.ownerId.user.id)
         response.append(RoomSerializer(roomResponse).data)
     return create_response(CODE_OK, u'Ok', response, RoomResponseSerializer)
 
@@ -87,6 +92,12 @@ def room_snapshot(category, username):
         dir_name = 'pet'
     return "http://%s:%s/%s/%s.jpg" % (
         STATIC_FILE_SERVER_CONFIG['ip'], STATIC_FILE_SERVER_CONFIG['port'], dir_name, username)
+
+
+# DOTO
+def room_live_url(user):
+    # return "rtmp://%s:%s/%s/chan_live" % (IP, RTMP_PORT, user.username)
+    return "rtmp://%s:%s/%s/chan_live" % (IP, RTMP_PORT, "chan")
 
 
 '''

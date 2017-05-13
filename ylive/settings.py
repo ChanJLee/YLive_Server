@@ -24,8 +24,15 @@ SECRET_KEY = ')h5$fi&bo1-=pu496e5e#t86vi4^fufl__^9vgylu+evhxufwj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.103', '10.21.88.228', '192.168.1.104', '192.168.1.100', '192.168.1.101', '192.168.1.102',
-                 '10.21.127.153']
+IP = '192.168.1.105'
+RTMP_PORT = "1396"
+
+STATIC_FILE_SERVER_CONFIG = {
+    'ip': IP,
+    'port': '8080'
+}
+
+ALLOWED_HOSTS = [STATIC_FILE_SERVER_CONFIG['ip'], ]
 
 # Application definition
 
@@ -46,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -129,8 +136,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATIC_FILE_SERVER_CONFIG = {
-    'ip': '192.168.1.103',
-    'port': '8080'
-}

@@ -8,7 +8,7 @@ def cal_room_name(user):
 
 def create_chat_room(user):
     uri = ("/chat_room/?room_name=%s&room_title=%s" % (cal_room_name(user), user.username))
-    connection = httplib.HTTPConnection("localhost", 8080)
+    connection = httplib.HTTPConnection("localhost", 8081)
     connection.request("POST", uri, None)
     response = connection.getresponse()
     return response.read()
@@ -16,7 +16,7 @@ def create_chat_room(user):
 
 def query_chat_room(user):
     uri = ("/chat_room/?room_name=%s" % cal_room_name(user))
-    connection = httplib.HTTPConnection("localhost", 8080)
+    connection = httplib.HTTPConnection("localhost", 8081)
     connection.request("GET", uri, None)
     response = connection.getresponse()
     return response.read()
